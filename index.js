@@ -21,6 +21,7 @@ export async function connectToMongoDB() {
 const connectClient = await connectToMongoDB();
 const db = connectClient.db("conceptual-mileston-8");
 const facilitiesCollection = db.collection("facilities");
+const facilitiesBookingCollection = db.collection("facilitiesBooking");
 // const bookingCollention = db.collection("bookings");
 
 app.post("/facilities", async (req, res) => {
@@ -42,13 +43,19 @@ app.get("/facilities/:id", async (req, res) => {
   res.send(result);
 });
 
-// app.get("/destination/:id", async (req, res) => {
-//   const { id } = req.params;
-//   const result = await destinationCollection.findOne({
-//     _id: new ObjectId(id),
-//   });
-//   res.send(result);
-// });
+app.post("/facilities/bookings", async (req, res) => {
+  const bookingData = req.body;
+  const result = await facilitiesBookingCollection.insertOne(bookingData);
+  res.send(result);
+});
+
+app.get("/my-facilities/:email", async (req, res) => {
+  const email = req.params.email;
+  const result = await facilitiesCollection
+    .find({ creatorEmail: email })
+    .toArray();
+  res.send(result);
+});
 
 // app.get("/test", (req, res) => {
 //   res.json({ message: "Hello World!" });
