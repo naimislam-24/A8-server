@@ -85,6 +85,15 @@ app.delete("/facilities/:id", async (req, res) => {
   res.json(result);
 });
 
+// Joined Events
+app.get("/facilities/bookings/:email", async (req, res) => {
+  const email = req.params.email;
+  const result = await facilitiesBookingCollection
+    .find({ creatorEmail: email })
+    .toArray();
+  res.send(result);
+});
+
 // app.get("/test", (req, res) => {
 //   res.json({ message: "Hello World!" });
 // });
