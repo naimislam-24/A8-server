@@ -89,13 +89,39 @@ app.delete("/facilities/:id", async (req, res) => {
 app.get("/facilities/bookings/:email", async (req, res) => {
   const email = req.params.email;
   const result = await facilitiesBookingCollection
-    .find({ creatorEmail: email })
+    .find({ userEmail: email })
     .toArray();
   res.send(result);
 });
 
+// Joined Events
+// app.delete("/facilities/:id", async (req, res) => {
+//   const id = req.params;
+//   const result = await facilitiesCollection.deleteOne({
+//     _id: new ObjectId(id),
+//   });
+//   res.json(result);
+// });
+
 // app.get("/test", (req, res) => {
 //   res.json({ message: "Hello World!" });
+// });
+
+app.get("/facilitiess/upcoming", async (req, res) => {
+  const today = new Date().toISOString().split("T")[0];
+
+  const result = await facilitiesCollection
+    .find({ date: { $gte: today } })
+    .sort({ date: 1 })
+    .limit(6)
+    .toArray();
+
+  res.send(result);
+});
+
+// app.get("/facilitiess", async (req, res) => {
+//   const result = await facilitiesCollection.find().toArray();
+//   res.send(result);
 // });
 
 // http://localhost:5000
