@@ -76,6 +76,15 @@ app.patch("/facilities/:id", async (req, res) => {
   res.json(result);
 });
 
+// Delete Data
+app.delete("/facilities/:id", async (req, res) => {
+  const id = req.params;
+  const result = await facilitiesCollection.deleteOne({
+    _id: new ObjectId(id),
+  });
+  res.json(result);
+});
+
 // app.get("/test", (req, res) => {
 //   res.json({ message: "Hello World!" });
 // });
