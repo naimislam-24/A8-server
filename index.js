@@ -65,6 +65,17 @@ app.get("/my-facilities/:email", async (req, res) => {
   res.send(result);
 });
 
+// Update Data
+app.patch("/facilities/:id", async (req, res) => {
+  const id = req.params;
+  const updateData = req.body;
+  const result = await facilitiesCollection.updateOne(
+    { _id: new ObjectId(id) },
+    { $set: updateData },
+  );
+  res.json(result);
+});
+
 // app.get("/test", (req, res) => {
 //   res.json({ message: "Hello World!" });
 // });
