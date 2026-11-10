@@ -73,13 +73,13 @@ app.get("/facilities/:id", verifyToken, async (req, res) => {
   res.send(result);
 });
 
-app.post("/facilities/bookings", async (req, res) => {
+app.post("/facilities/bookings", verifyToken, async (req, res) => {
   const bookingData = req.body;
   const result = await facilitiesBookingCollection.insertOne(bookingData);
   res.send(result);
 });
 
-app.get("/my-facilities/:email", async (req, res) => {
+app.get("/my-facilities/:email", verifyToken, async (req, res) => {
   const email = req.params.email;
   const result = await facilitiesCollection
     .find({ creatorEmail: email })
@@ -108,7 +108,7 @@ app.delete("/facilities/:id", async (req, res) => {
 });
 
 // Joined Events
-app.get("/facilities/bookings/:email", async (req, res) => {
+app.get("/facilities/bookings/:email", verifyToken, async (req, res) => {
   const email = req.params.email;
   const result = await facilitiesBookingCollection
     .find({ userEmail: email })
