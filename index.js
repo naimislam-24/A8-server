@@ -9,7 +9,7 @@ const app = express();
 // app.use(cors());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: `${process.env.CLIENT_URL}`,
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -43,7 +43,7 @@ const verifyToken = async (req, res, next) => {
     return res.status(401).send({ msg: "Unauthorized!" });
   }
   const JWKS = createRemoteJWKSet(
-    new URL("http://localhost:3000/api/auth/jwks"),
+    new URL(`${process.env.CLIENT_URL}/api/auth/jwks`),
   );
   try {
     const { payload } = await jwtVerify(token, JWKS);
@@ -146,10 +146,10 @@ app.get("/facilitiess/upcoming", async (req, res) => {
 //   res.send(result);
 // });
 
-// http://localhost:5000
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// // http://localhost:5000
+// app.get("/", (req, res) => {
+//   res.send("Hello World!");
+// });
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
