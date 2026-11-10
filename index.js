@@ -88,7 +88,7 @@ app.get("/my-facilities/:email", verifyToken, async (req, res) => {
 });
 
 // Update Data
-app.patch("/facilities/:id", async (req, res) => {
+app.patch("/facilities/:id", verifyToken, async (req, res) => {
   const id = req.params;
   const updateData = req.body;
   const result = await facilitiesCollection.updateOne(
@@ -99,7 +99,7 @@ app.patch("/facilities/:id", async (req, res) => {
 });
 
 // Delete Data
-app.delete("/facilities/:id", async (req, res) => {
+app.delete("/facilities/:id", verifyToken, async (req, res) => {
   const id = req.params;
   const result = await facilitiesCollection.deleteOne({
     _id: new ObjectId(id),
